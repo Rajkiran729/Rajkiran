@@ -1,0 +1,83 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f0f2f5; /* Light grey background for contrast */
+    font-family: 'Montserrat', sans-serif; /* A bold, modern font */
+    overflow: hidden; /* Prevent gradient overflow issues */
+}
+
+.jio-logo-container {
+    /* Main container for the logo, acting as the blue background */
+    background: linear-gradient(45deg, #007BFF, #00AFFF); /* Blue gradient, similar to Jio */
+    border-radius: 15px; /* Slightly rounded corners for the overall shape */
+    padding: 20px 50px; /* Padding around the text */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+    position: relative;
+    overflow: hidden; /* Crucial for containing the pseudo-elements */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 250px; /* Ensure a minimum width */
+    min-height: 100px; /* Ensure a minimum height */
+}
+
+.jio-logo-container::before,
+.jio-logo-container::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15); /* White overlay for subtle light effects */
+    animation: pulse 4s infinite ease-in-out alternate; /* Animation for a subtle glow */
+}
+
+.jio-logo-container::before {
+    width: 150%;
+    height: 150%;
+    top: -25%;
+    left: -25%;
+    opacity: 0.7;
+    filter: blur(40px); /* Soft blur */
+}
+
+.jio-logo-container::after {
+    width: 120%;
+    height: 120%;
+    bottom: -20%;
+    right: -20%;
+    opacity: 0.5;
+    filter: blur(30px); /* Soft blur */
+    animation-delay: 1s; /* Stagger the animation */
+}
+
+@keyframes pulse {
+    0% { transform: scale(0.95); opacity: 0.6; }
+    100% { transform: scale(1.05); opacity: 0.8; }
+}
+
+
+.jio-text {
+    color: #FFFFFF; /* White text */
+    font-size: 6em; /* Large font size for prominence */
+    font-weight: 800; /* Extra bold */
+    text-transform: uppercase; /* Jio logo uses uppercase */
+    letter-spacing: -3px; /* Slightly reduce letter spacing for a compact look */
+    position: relative; /* For z-index to stay above pseudo-elements */
+    z-index: 10; /* Ensure text is on top of the glowing effects */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Subtle text shadow for pop */
+    line-height: 1; /* Adjust line height if needed */
+
+    /* Attempting to mimic rounded edges of the letters */
+    border-radius: 5px; /* Applies to the entire text block, not individual letters */
+    display: inline-block; /* Essential for text-shadow and border-radius to apply correctly */
+    padding: 0 5px; /* Small padding for better visual */
+}
+
+/* A more advanced attempt at rounded letters for a specific font */
+/* This requires careful tuning and might not be perfect for all fonts */
+/* You would need to inspect specific characters or use SVG for true vector shapes */
+.jio-text span {
+    border-radius: 50%; /* This won't work on text directly, but is conceptual */
+}

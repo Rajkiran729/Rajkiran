@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShopSmart - Premium Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(45deg, #6a11cb, #2575fc);
+            --secondary-gradient: linear-gradient(45deg, #2575fc, #6a11cb);
+            --header-gradient: linear-gradient(to right, #141e30, #243b55);
+            --hero-gradient: linear-gradient(to right, #e0eafc, #cfdef3);
+            --text-dark: #333;
+            --text-light: #fff;
+            --text-secondary: #555;
+            --card-bg: #ffffff;
+            --footer-bg: #2c3e50;
+            --accent-color: #17a2b8;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --info-color: #17a2b8; /* Added for info buttons */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #fdfbfb, #ebedee);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: var(--header-gradient);
+            color: var(--text-light);
+            padding: 20px; /* Reduced padding for more flexible layout */
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex; /* Use flexbox for header content */
+            flex-direction: column; /* Stack items vertically on small screens */
+            align-items: center; /* Center items horizontally */
+            gap: 15px; /* Space between title and buttons */
+        }
+
+        header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin: 0; /* Remove default margin */
+            cursor: pointer; /* Indicate it's clickable */
+        }
+
+        .header-buttons {
+            display: flex;
+            flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+            justify-content: center; /* Center buttons */
+            gap: 15px; /* Space between buttons */
+        }
+
+        .header-btn {
+            background: rgba(255, 255, 255, 0.15); /* Slightly transparent white */
+            color: var(--text-light);
+            padding: 10px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none; /* For link-like behavior */
+        }
+
+        .header-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            background: var(--hero-gradient);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            animation: pulse 10s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.2); opacity: 0.6; }
+        }
+
+        /* New blinking animation */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+
+        .hero h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero p {
+            max-width: 700px;
+            margin: auto;
+            color: var(--text-secondary);
+            font-size: 18px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            flex: 1; /* Allows container to grow and push footer down */
+            padding: 60px 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden; /* For image border-radius */
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px; /* Fixed height for consistent card size */
+            object-fit: cover; /* Ensures image covers area without distortion */
+            border-radius: 12px;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+            cursor: pointer; /* Indicate clickable */
+        }
+        
+        .product-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .product-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-align: center;
+            color: var(--text-dark);
+            cursor: pointer; /* Indicate clickable */
+        }
+
+        /* Apply blinking animation to product title on hover of the card */
+        .product-card:hover .product-title {
+            animation: blink 1s infinite;
+        }
+
+        .price {
+            font-size: 22px;
+            color: var(--accent-color);
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            background: var(--primary-gradient);
+            color: var(--text-light);
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none; /* For checkout button which might be a link */
+            justify-content: center;
+        }
+
+        .btn:hover {
+            background: var(--secondary-gradient);
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #ffc107; /* Warning color for attention */
+            color: #333;
+            padding: 15px 25px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background 0.3s ease;
+            z-index: 1001;
+        }
+
+        .cart-status:hover {
+            transform: scale(1.05);
+            background: #e0a800;
+        }
+
+        .cart-status i {
+            font-size: 20px;
+        }
+
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1002;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5); /* Semi-transparent black background */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            position: relative;
+            animation: fadeInScale 0.3s ease-out;
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .close-button {
+            color: #aaa;
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: #000;
+            text-decoration: none;
+        }
+
+        #cart-items-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        #cart-items-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #cart-items-list li:last-child {
+            border-bottom: none;
+        }
+
+        #cart-total {
+            font-size: 20px;
+            font-weight: 700;
+            text-align: right;
+            margin-top: 20px;
+            color: var(--text-dark);
+        }
+
+        .checkout-btn {
+            background: var(--success-color); /* Success color */
+            margin-top: 30px;
+        }
+
+        .checkout-btn:hover {
+            background: #218838;
+        }
+
+        /* Form styling for checkout details */
+        .checkout-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .checkout-form input[type="text"],
+        .checkout-form input[type="email"],
+        .checkout-form textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .checkout-form input[type="text"]:focus,
+        .checkout-form input[type="email"]:focus,
+        .checkout-form textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(23, 162, 184, 0.2);
+        }
+
+        .checkout-form textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .submit-order-btn {
+            background: var(--primary-gradient);
+            color: var(--text-light);
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            width: 100%;
+        }
+
+        .submit-order-btn:hover {
+            background: var(--secondary-gradient);
+            transform: translateY(-2px);
+        }
+
+        .order-confirmation {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .order-confirmation h2 {
+            color: var(--success-color);
+            margin-bottom: 20px;
+            font-size: 32px;
+        }
+
+        .order-confirmation p {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .order-details-summary {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: left;
+            border: 1px solid #e9ecef;
+        }
+
+        .order-details-summary h3 {
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .order-details-summary ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+
+        .order-details-summary ul li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #eee;
+            display: flex;
+            justify-content: space-between;
+            font-size: 16px;
+            color: var(--text-secondary);
+        }
+
+        .order-details-summary ul li:last-child {
+            border-bottom: none;
+        }
+
+        .order-details-summary .total-price {
+            font-weight: 700;
+            color: var(--text-dark);
+            font-size: 20px;
+            text-align: right;
+            margin-top: 15px;
+        }
+
+        /* Product Quick View Modal Specific Styles */
+        .product-quick-view-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .product-quick-view-content img {
+            max-width: 80%;
+            max-height: 300px;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .product-quick-view-content h3 {
+            font-size: 28px;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+
+        .product-quick-view-content p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        .product-quick-view-content .price {
+            font-size: 26px;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        /* Footer Styles */
+        footer {
+            background: var(--footer-bg);
+            color: var(--text-light);
+            text-align: center;
+            padding: 20px;
+            font-size: 16px;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.25);
+            margin-top: auto; /* Pushes footer to the bottom */
+        }
+
+        footer i {
+            color: var(--danger-color);
+            margin: 0 5px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                font-size: 28px;
+                padding: 20px 15px;
+            }
+            header h1 {
+                font-size: 30px;
+            }
+            .header-buttons {
+                flex-direction: column; /* Stack buttons vertically */
+                align-items: center;
+                gap: 10px;
+            }
+            .hero h2 {
+                font-size: 36px;
+            }
+            .hero p {
+                font-size: 16px;
+                max-width: 90%;
+            }
+            .container {
+                padding: 40px 20px;
+                gap: 20px;
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            .product-title {
+                font-size: 18px;
+            }
+            .price {
+                font-size: 20px;
+            }
+            .btn {
+                font-size: 14px;
+                padding: 10px 20px;
+            }
+            .cart-status {
+                bottom: 15px;
+                right: 15px;
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+            }
+            .order-confirmation h2 {
+                font-size: 28px;
+            }
+            .order-confirmation p {
+                font-size: 16px;
+            }
+            .order-details-summary h3 {
+                font-size: 20px;
+            }
+            .order-details-summary ul li {
+                font-size: 14px;
+            }
+            .product-quick-view-content h3 {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 15px;
+            }
+            header h1 {
+                font-size: 24px;
+            }
+            .hero {
+                padding: 50px 15px;
+            }
+            .hero h2 {
+                font-size: 30px;
+            }
+            .container {
+                padding: 30px 15px;
+                grid-template-columns: 1fr; /* Single column on very small screens */
+            }
+            .product-card img {
+                height: 180px;
+            }
+            .cart-status {
+                font-size: 12px;
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>  
+    <header>
+        <h1 id="homeBtn">RK - QUICKSTORE </h1>
+        <div class="header-buttons">
+            <button class="header-btn" id="aboutUsBtn">
+                <i class="fas fa-info-circle"></i> About Us
+            </button>
+            <button class="header-btn" id="contactUsBtn">
+                <i class="fas fa-envelope"></i> Contact Us
+            </button>
+            <button class="header-btn" id="paymentBtn">
+                <i class="fas fa-credit-card"></i> Payment
+            </button> 
+    </header>
+
+    <section class="hero">
+        <h2>Unleash Your Style</h2>
+        <p>Discover a curated collection of premium fashion, cutting-edge electronics, and essential lifestyle accessories. Quality meets affordability, delivered with unmatched service!</p>
+    </section>
+
+    <div class="container" id="product-grid">
+    </div>
+
+    <div class="cart-status" id="cart-status">
+        <i class="fas fa-shopping-cart"></i>
+        <span>Cart (<span id="cart-count">0</span>)</span>
+    </div>
+
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" data-modal="cart-modal">&times;</span>
+            <h2>Your Shopping Cart</h2>
+            <ul id="cart-items-list">
+            </ul>
+            <div id="cart-total">Total: $0.00</div>
+            <div style="display: flex; justify-content: space-between; gap: 10px; margin-top: 30px;">
+                <button class="btn" id="continue-shopping">Continue Shopping</button>
+                <button class="btn checkout-btn" id="proceed-to-checkout">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="quick-view-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" data-modal="quick-view-modal">&times;</span>
+            <div id="quick-view-content" class="product-quick-view-content">
+            </div>
+        </div>
+    </div>
+
+    <div id="checkout-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" data-modal="checkout-modal">&times;</span>
+            <h2>Enter Your Details</h2>
+            <form id="checkout-form" class="checkout-form">
+                <label for="fullName">Full Name:</label>
+                <input type="text" id="fullName" name="fullName" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="address">Shipping Address:</label>
+                <textarea id="address" name="address" rows="4" required></textarea>
+
+                <button type="submit" class="submit-order-btn">Book Order</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="confirmation-modal" class="modal">
+        <div class="modal-content order-confirmation">
+            <span class="close-button" data-modal="confirmation-modal">&times;</span>
+            <h2><i class="fas fa-check-circle"></i> Order Confirmed!</h2>
+            <p>Thank you for your purchase, <span id="confirmation-name"></span>!</p>
+            <p>Your order has been successfully placed and will be shipped to:</p>
+            <p style="font-weight: 600;" id="confirmation-address"></p>
+            <p>A confirmation email has been sent to: <span style="font-weight: 600;" id="confirmation-email"></span></p>
+
+            <div class="order-details-summary">
+                <h3>Order Summary</h3>
+                <ul id="confirmation-items-list">
+                </ul>
+                <div class="total-price" id="confirmation-total"></div>
+            </div>
+            <button class="btn checkout-btn" onclick="window.location.reload();" style="margin-top: 40px;">Continue Shopping</button>
+        </div>
+    </div>
+    <footer>
+        &copy; 2025 ShopSmart | Designed with <i class="fas fa-heart"></i> by Raj Kiran
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        const products = [
+            {
+                id: 1,
+                name: 'Cool Sneakers',
+                price: 49.99,
+                description: 'Step up your style game with these ultra-comfortable and trendy sneakers. Perfect for everyday wear or hitting the gym.',
+                image: 'shoe.jpeg'
+            },
+            {
+                id: 2,
+                name: 'Smart Watch',
+                price: 79.99,
+                description: 'Stay connected and track your fitness with this sleek and feature-packed smart watch. Compatible with iOS and Android.',
+                image: 'watch2.jpeg'
+            },
+            {
+                id: 3,
+                name: 'Stylish Backpack',
+                price: 39.99,
+                description: 'Carry your essentials in style with this durable and spacious backpack. Ideal for school, work, or travel.',
+                image: 'bag2.jpeg'
+            },
+            {
+                id: 4,
+                name: 'Wireless Earphones',
+                price: 39.99,
+                description: 'Experience crystal-clear audio and ultimate freedom with these ergonomic wireless earphones. Long-lasting battery life.',
+                image: 'buds.jpeg'
+            },
+            {
+                id: 5,
+                name: 'Bluetooth Speaker',
+                price: 29.99,
+                description: 'Pump up the volume with this portable and powerful Bluetooth speaker. Rich bass and clear highs for an immersive sound.',
+                image: 'sound2.jpeg'
+            },
+            {
+                id: 6,
+                name: 'Designer Sunglasses',
+                price: 19.99,
+                description: 'Protect your eyes with style. These designer sunglasses offer UV protection and a timeless look for any occasion.',
+                image: 'https://th.bing.com/th/id/OPAC.7mT9gEBGCYMu4g474C474?w=160&h=220&rs=1&o=5&dpr=1.5&pid=21.1'
+            },
+            {
+                id: 7,
+                name: 'Ergonomic Mouse',
+                price: 24.99,
+                description: 'Boost your productivity and comfort with this ergonomic mouse, designed for long hours of use without strain.',
+                image: 'https://images.unsplash.com/photo-1618005198919-d3c3c8e3f4e2?auto=format&fit=crop&w=600&q=80'
+            },
+            {
+                id: 8,
+                name: 'Premium Yoga Mat',
+                price: 34.99,
+                description: 'Enhance your yoga practice with this non-slip and durable premium yoga mat. Provides excellent grip and cushioning.',
+                image: 'https://th.bing.com/th/id/OIP.WWIdpe8rKd1uBMHKXbkcVwHaHa?w=163&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3'
+            }
+        ];
+
+        
+
+        let cart = [];
+
+        // DOM Elements
+        const productGrid = document.getElementById('product-grid');
+        const cartCountSpan = document.getElementById('cart-count');
+        const cartStatus = document.getElementById('cart-status');
+
+        const cartModal = document.getElementById('cart-modal');
+        const cartItemsList = document.getElementById('cart-items-list');
+        const cartTotalSpan = document.getElementById('cart-total');
+        const proceedToCheckoutBtn = document.getElementById('proceed-to-checkout');
+        const continueShoppingBtn = document.getElementById('continue-shopping');
+
+        const quickViewModal = document.getElementById('quick-view-modal');
+        const quickViewContent = document.getElementById('quick-view-content');
+
+        const checkoutModal = document.getElementById('checkout-modal');
+        const checkoutForm = document.getElementById('checkout-form');
+        const fullNameInput = document.getElementById('fullName');
+        const emailInput = document.getElementById('email');
+        const addressTextarea = document.getElementById('address');
+
+        const confirmationModal = document.getElementById('confirmation-modal');
+        const confirmationNameSpan = document.getElementById('confirmation-name');
+        const confirmationAddressSpan = document.getElementById('confirmation-address');
+        const confirmationEmailSpan = document.getElementById('confirmation-email');
+        const confirmationItemsList = document.getElementById('confirmation-items-list');
+        const confirmationTotalSpan = document.getElementById('confirmation-total');
+
+        // New button elements
+        const aboutUsBtn = document.getElementById('aboutUsBtn');
+        const contactUsBtn = document.getElementById('contactUsBtn');
+        const paymentBtn = document.getElementById('paymentBtn');
+        const homeBtn = document.getElementById('homeBtn'); // Added for the H1 click
+
+        // --- Functions ---
+
+        // Function to render products on the main page
+        function renderProducts() {
+            productGrid.innerHTML = ''; 
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.classList.add('product-card');
+                productCard.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" data-product-id="${product.id}">
+                    <div class="product-title" data-product-id="${product.id}">${product.name}</div>
+                    <div class="price">$${product.price.toFixed(2)}</div>
+                    <button class="btn" onclick="addToCart(${product.id})">
+                        <i class="fas fa-cart-plus"></i> Add to Cart
+                    </button>
+                `;
+                productGrid.appendChild(productCard);
+            });
+
+            // Add event listeners for quick view after rendering products
+            document.querySelectorAll('.product-card img, .product-card .product-title').forEach(element => {
+                element.addEventListener('click', (event) => {
+                    const productId = parseInt(event.target.dataset.productId);
+                    openQuickView(productId);
+                });
+            });
+        }
+
+        // Function to open product quick view modal
+        function openQuickView(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                quickViewContent.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>${product.description}</p>
+                    <div class="price">$${product.price.toFixed(2)}</div>
+                    <button class="btn" onclick="addToCart(${product.id}); closeModal(quickViewModal);">
+                        <i class="fas fa-cart-plus"></i> Add to Cart
+                    </button>
+                `;
+                openModal(quickViewModal);
+            }
+        }
+
+        // Function to add item to cart
+        function addToCart(productId) {
+            const productToAdd = products.find(p => p.id === productId);
+            if (productToAdd) {
+                // Check if product already in cart, if so, just increment quantity
+                const existingItem = cart.find(item => item.id === productId);
+                if (existingItem) {
+                    existingItem.quantity++;
+                } else {
+                    cart.push({ ...productToAdd, quantity: 1 }); // Add quantity property
+                }
+                updateCartUI();
+                showToast('success', `${productToAdd.name} added to cart!`);
+            }
+        }
+
+        // Function to update cart UI (count and modal content)
+        function updateCartUI() {
+            cartCountSpan.textContent = cart.reduce((sum, item) => sum + item.quantity, 0); // Sum quantities
+            renderCartItems(); // Re-render cart items every time cart changes
+        }
+
+        // Function to render items in the cart modal
+        function renderCartItems() {
+            cartItemsList.innerHTML = '';
+            let total = 0;
+            if (cart.length === 0) {
+                cartItemsList.innerHTML = '<li style="text-align: center; color: #888;">Your cart is empty.</li>';
+                proceedToCheckoutBtn.disabled = true; // Disable checkout if cart is empty
+                proceedToCheckoutBtn.style.opacity = '0.6';
+                proceedToCheckoutBtn.style.cursor = 'not-allowed';
+            } else {
+                proceedToCheckoutBtn.disabled = false; // Enable checkout
+                proceedToCheckoutBtn.style.opacity = '1';
+                proceedToCheckoutBtn.style.cursor = 'pointer';
+
+                cart.forEach((item, index) => {
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `
+                        <span>${item.name} (x${item.quantity})</span>
+                        <span>$${(item.price * item.quantity).toFixed(2)} 
+                             <button style="background: none; border: none; color: var(--danger-color); cursor: pointer; font-size: 18px;" 
+                                     onclick="removeFromCart(${index})">&times;</button>
+                        </span>
+                    `;
+                    cartItemsList.appendChild(listItem);
+                    total += item.price * item.quantity;
+                });
+            }
+            cartTotalSpan.textContent = `Total: $${total.toFixed(2)}`;
+        }
+
+        // Function to remove item from cart
+        function removeFromCart(index) {
+            const removedItem = cart[index];
+            if (removedItem.quantity > 1) {
+                removedItem.quantity--;
+                showToast('info', `Reduced quantity of ${removedItem.name}.`);
+            } else {
+                cart.splice(index, 1);
+                showToast('info', `${removedItem.name} removed from cart.`);
+            }
+            updateCartUI();
+        }
+
+        // Function to display SweetAlert2 toast notifications
+        function showToast(icon, title) {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'bottom-end',
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer);
+                    toast.addEventListener('mouseleave', Swal.resumeTimer);
+                }
+            });
+            Toast.fire({ icon, title });
+        }
+
+        // Function to open a modal
+        function openModal(modalElement) {
+            modalElement.style.display = 'flex';
+        }
+
+        // Function to close a modal
+        function closeModal(modalElement) {
+            modalElement.style.display = 'none';
+        }
+
+        // --- Event Listeners ---
+
+        // Open Cart Modal
+        cartStatus.addEventListener('click', () => {
+            openModal(cartModal);
+        });
+
+        // Close buttons for modals
+        document.querySelectorAll('.close-button').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const modalId = event.target.dataset.modal;
+                const modalToClose = document.getElementById(modalId);
+                closeModal(modalToClose);
+            });
+        });
+
+        // Close modal when clicking outside of modal content
+        window.addEventListener('click', (event) => {
+            if (event.target.classList.contains('modal')) {
+                closeModal(event.target);
+            }
+        });
+
+        // Continue Shopping button in cart modal
+        continueShoppingBtn.addEventListener('click', () => {
+            closeModal(cartModal);
+        });
+
+        // Proceed to Checkout button in cart modal
+        proceedToCheckoutBtn.addEventListener('click', () => {
+            closeModal(cartModal);
+            openModal(checkoutModal);
+        });
+
+        // Checkout Form Submission
+        checkoutForm.addEventListener('submit', (event) => {
+            event.preventDefault(); // Prevent default form submission
+
+            const fullName = fullNameInput.value;
+            const email = emailInput.value;
+            const address = addressTextarea.value;
+
+            // Update confirmation modal content
+            confirmationNameSpan.textContent = fullName;
+            confirmationAddressSpan.textContent = address;
+            confirmationEmailSpan.textContent = email;
+
+            // Render order summary in confirmation modal
+            confirmationItemsList.innerHTML = '';
+            let confirmationTotal = 0;
+            cart.forEach(item => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `<span>${item.name} (x${item.quantity})</span><span>$${(item.price * item.quantity).toFixed(2)}</span>`;
+                confirmationItemsList.appendChild(listItem);
+                confirmationTotal += item.price * item.quantity;
+            });
+            confirmationTotalSpan.textContent = `Total: $${confirmationTotal.toFixed(2)}`;
+
+            closeModal(checkoutModal);
+            openModal(confirmationModal);
+
+            // Clear the cart after successful order
+            cart = [];
+            updateCartUI(); // Update UI to reflect empty cart
+            checkoutForm.reset(); // Clear form fields
+            showToast('success', 'Order placed successfully!');
+        });
+
+        // Header Buttons Functionality
+        aboutUsBtn.addEventListener('click', () => {
+            Swal.fire({
+                title: 'About RK - QUICKSTORE',
+                html: '<p>Welcome to <strong>RK - QUICKSTORE</strong>, your one-stop shop for premium products! We curate the best in fashion, electronics, and lifestyle to bring you quality and affordability. Our mission is to provide an unmatched shopping experience with exceptional customer service.</p><p>We believe in quality products that enhance your daily life. Thank you for choosing us!</p>',
+                icon: 'info',
+                confirmButtonText: 'Great!',
+                customClass: {
+                    confirmButton: 'swal2-confirm-button-custom' // Add custom class if you want to style this button
+                }
+            });
+        });
+
+      contactUsBtn.addEventListener('click', () => {
+    Swal.fire({
+        title: 'Contact Us',
+        html: `
+            <p>Have questions or feedback? We'd love to hear from you!</p>
+            <p>Email: <a href="mailto:rk1632554@gmail.com">rk1632554@gmail.com</a></p>
+            <p>Phone: +91 8019145495</p>
+            <p>Address: 534211 RK - QUICKSTORE, Tadepalligudem City, Andhra Pradesh</p>
+            <p><a href="https://www.google.com/maps?q=RK+QUICKSTORE,+Tadepalligudem,+Andhra+Pradesh" target="_blank">📍 View Location on Google Maps</a></p>
+        `,
+        icon: 'question',
+        confirmButtonText: 'Got It!',
+        customClass: {
+            confirmButton: 'swal2-confirm-button-custom'
+        }
+    });
+});
+
+
+        paymentBtn.addEventListener('click', () => {
+            Swal.fire({
+                title: 'Payment Information',
+                html: `<p>We accept a variety of secure payment methods:</p>
+                       <ul>
+                           <li><i class="fab fa-cc-visa"></i> Visa</li>
+                           <li><i class="fab fa-cc-mastercard"></i> MasterCard</li>
+                           <li><i class="fab fa-cc-paypal"></i> PayPal</li>
+                           <li><i class="fas fa-money-bill-wave"></i> Cash on Delivery (COD)</li>
+                       </ul>
+                       <p>All transactions are encrypted and secure.</p>`,
+                icon: 'credit-card',
+                confirmButtonText: 'Understood',
+                 customClass: {
+                    confirmButton: 'swal2-confirm-button-custom'
+                }
+            });
+        });
+
+        // Home button (h1) click functionality - scrolls to top
+        homeBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Initial render on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts();
+            updateCartUI(); // Initialize cart count on load
+        });
+    </script>
+</body>
+</html>
